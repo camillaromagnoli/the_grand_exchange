@@ -20,12 +20,12 @@ class ItemDetailsEntity extends Equatable {
   final String icon;
   final String iconLarge;
   final String type;
-  final String typeIcon;
+  final String? typeIcon;
   final String description;
   final bool members;
-  final String trend;
-  final String price;
-  final String change;
+  final String? trend;
+  final String? price;
+  final String? change;
 
   @override
   List<Object?> get props => [

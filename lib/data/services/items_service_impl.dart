@@ -22,4 +22,17 @@ class ItemsServiceImpl extends ItemsService {
 
     return response;
   }
+
+  @override
+  Future<Response> getItemDetails({required int itemId}) async {
+    const url =
+        'https://secure.runescape.com/m=itemdb_rs/api/catalogue/detail.json';
+
+    final Response response = await _networkAdapter.get(
+      url: url,
+      queryParameters: {'item': itemId.toString()},
+    );
+
+    return response;
+  }
 }

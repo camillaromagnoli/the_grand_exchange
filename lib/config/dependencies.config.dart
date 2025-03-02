@@ -12,13 +12,14 @@
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
-import 'package:the_grand_exchange/presentation/bloc/items_bloc.dart';
 
 import '../core/adapters/network_adapter.dart' as _i1048;
 import '../data/repositories/items_repository_impl.dart' as _i780;
 import '../data/services/items_service_impl.dart' as _i743;
 import '../domain/repositories/items_repository.dart' as _i1051;
 import '../domain/services/items_service.dart' as _i1057;
+import '../presentation/bloc/item_details/item_details_bloc.dart' as _i635;
+import '../presentation/bloc/items/items_bloc.dart' as _i978;
 import 'dependencies.dart' as _i372;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -37,12 +38,14 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i743.ItemsServiceImpl(networkAdapter: gh<_i1048.NetworkAdapter>()),
     );
     gh.factory<_i1051.ItemsRepository>(
-      () => _i780.ItemsRepositoryImpl(
-        ingredientsService: gh<_i1057.ItemsService>(),
-      ),
+      () => _i780.ItemsRepositoryImpl(itemsService: gh<_i1057.ItemsService>()),
     );
-    gh.factory<ItemsBloc>(
-      () => ItemsBloc(itemsRepository: gh<_i1051.ItemsRepository>()),
+    gh.factory<_i978.ItemsBloc>(
+      () => _i978.ItemsBloc(itemsRepository: gh<_i1051.ItemsRepository>()),
+    );
+    gh.factory<_i635.ItemDetailsBloc>(
+      () =>
+          _i635.ItemDetailsBloc(itemsRepository: gh<_i1051.ItemsRepository>()),
     );
     return this;
   }

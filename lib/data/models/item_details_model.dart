@@ -23,12 +23,12 @@ class ItemDetailsModel extends ItemDetailsEntity {
       icon: json['icon'] as String,
       iconLarge: json['icon_large'] as String,
       type: json['type'] as String,
-      typeIcon: json['type_icon'] as String,
+      typeIcon: json['type_icon'] as String?,
       description: json['description'] as String,
       members: json['members'].toString().toLowerCase().toBool(),
-      trend: json['trend'] as String,
-      price: json['price'] as String,
-      change: json['change'] as String,
+      trend: json['trend'] as String?,
+      price: json['price'] as String?,
+      change: json['change'] as String?,
     );
   }
 }

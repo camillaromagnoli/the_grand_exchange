@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_grand_exchange/config/dependencies.dart';
 import 'package:the_grand_exchange/core/routes/router.dart';
-import 'package:the_grand_exchange/presentation/pages/items_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

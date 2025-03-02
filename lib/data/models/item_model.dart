@@ -16,11 +16,10 @@ class ItemModel extends ItemEntity {
   factory ItemModel.fromJson(Map<String, dynamic> json) {
     return ItemModel(
       id: json['id'] as int,
-      name: json['name'] as String?,
-      icon: json['icon'] as String?,
-      iconLarge:
-          json['icon_large'] as String?, // Mapping 'icon_large' to 'iconLarge'
-      type: json['type'] as String?,
+      name: json['name'] as String,
+      icon: json['icon'] as String,
+      iconLarge: json['icon_large'] as String?,
+      type: json['type'] as String,
       typeIcon: json['type_icon'] as String?,
       price: json['price'] as String?,
       members: json['members'].toString().toLowerCase().toBool(),

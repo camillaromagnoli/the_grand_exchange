@@ -13,10 +13,10 @@ class ItemEntity extends Equatable {
   });
 
   final int id;
-  final String? name;
-  final String? icon;
+  final String name;
+  final String icon;
   final String? iconLarge;
-  final String? type;
+  final String type;
   final String? typeIcon;
   final String? price;
   final bool members;

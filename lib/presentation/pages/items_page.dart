@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:the_grand_exchange/config/dependencies.dart';
+import 'package:the_grand_exchange/core/routes/app_routes_path.dart';
 import 'package:the_grand_exchange/design/card_item.dart';
 import 'package:the_grand_exchange/domain/entities/item_entity.dart';
-import 'package:the_grand_exchange/presentation/bloc/items_bloc.dart';
+import 'package:the_grand_exchange/presentation/bloc/items/items_bloc.dart';
 
 class ItemsPage extends StatefulWidget {
   const ItemsPage({super.key});
@@ -38,9 +39,9 @@ class _ItemsPageState extends State<ItemsPage> {
                   final ItemEntity item = items[index];
                   return CardItem(
                     label: item.name ?? '',
-                    urlImage: item.icon!,
+                    urlImage: item.icon,
                     onTap: () {
-                      context.go('item-details', extra: item.id);
+                      context.go(AppRoutePaths.itemDetails, extra: item);
                     },
                   );
                 },
