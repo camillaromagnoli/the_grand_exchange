@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_grand_exchange/config/dependencies.dart';
+import 'package:the_grand_exchange/core/routes/router.dart';
 import 'package:the_grand_exchange/presentation/pages/items_page.dart';
 
 void main() {
@@ -15,12 +16,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return MaterialApp.router(
+      routerConfig: router,
+      debugShowCheckedModeBanner: false,
+      title: 'The Grand Exchange',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
-      home: const ItemsPage(),
     );
   }
 }

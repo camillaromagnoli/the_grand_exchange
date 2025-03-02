@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:the_grand_exchange/config/dependencies.dart';
 import 'package:the_grand_exchange/design/card_item.dart';
 import 'package:the_grand_exchange/domain/entities/item_entity.dart';
@@ -25,10 +26,23 @@ class _ItemsPageState extends State<ItemsPage> {
               return Center(child: CircularProgressIndicator());
             } else if (state is ItemsSuccessState) {
               final List<ItemEntity> items = state.items;
-              return ListView.builder(
+              return GridView.builder(
+                padding: EdgeInsets.all(16.0),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: 1,
+                ),
                 itemBuilder: (context, index) {
                   final ItemEntity item = items[index];
-                  return CardItem(label: item.name ?? '', urlImage: item.icon!);
+                  return CardItem(
+                    label: item.name ?? '',
+                    urlImage: item.icon!,
+                    onTap: () {
+                      context.go('item-details', extra: item.id);
+                    },
+                  );
                 },
                 itemCount: items.length,
               );

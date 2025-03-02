@@ -1,3 +1,4 @@
+import 'package:the_grand_exchange/core/extensions/string_extensions.dart';
 import 'package:the_grand_exchange/domain/entities/item_entity.dart';
 
 class ItemModel extends ItemEntity {
@@ -22,17 +23,7 @@ class ItemModel extends ItemEntity {
       type: json['type'] as String?,
       typeIcon: json['type_icon'] as String?,
       price: json['price'] as String?,
-      members: convertBool(json['members'].toString().toLowerCase()),
+      members: json['members'].toString().toLowerCase().toBool(),
     );
   }
-}
-
-bool convertBool(String value) {
-  if (value == "true") {
-    return true;
-  }
-  if (value == "false") {
-    return false;
-  }
-  return false;
 }
