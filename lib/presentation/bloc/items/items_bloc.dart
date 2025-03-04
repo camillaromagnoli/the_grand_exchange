@@ -23,7 +23,11 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
   ) async {
     emit(ItemsLoadingState());
     try {
-      final response = await _itemsRepository.getItems();
+      final response = await _itemsRepository.getItems(
+        category: event.category,
+        alpha: event.alpha,
+        page: event.page,
+      );
       emit(ItemsSuccessState(items: response));
     } catch (e) {
       emit(ItemsErrorState(failure: ''));

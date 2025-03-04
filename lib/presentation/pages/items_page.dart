@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:the_grand_exchange/config/dependencies.dart';
 import 'package:the_grand_exchange/core/routes/app_routes_path.dart';
-import 'package:the_grand_exchange/design/card_item.dart';
+import 'package:the_grand_exchange/data/enums/item_category_enum.dart';
+import 'package:the_grand_exchange/design/chips_choice.dart';
+import 'package:the_grand_exchange/design/list_item.dart';
 import 'package:the_grand_exchange/domain/entities/item_entity.dart';
 import 'package:the_grand_exchange/presentation/bloc/items/items_bloc.dart';
 
@@ -15,11 +17,16 @@ class ItemsPage extends StatefulWidget {
 }
 
 class _ItemsPageState extends State<ItemsPage> {
+  bool isSelected = false;
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ItemsBloc>(
-      create: (context) => getIt<ItemsBloc>()..add(GetItemsEvent()),
+      create:
+          (context) =>
+              getIt<ItemsBloc>()
+                ..add(GetItemsEvent(category: 1, alpha: 'a', page: 1)),
       child: Scaffold(
+        backgroundColor: Color.fromRGBO(205, 152, 132, 1),
         appBar: AppBar(title: Text('The Grand Exchange')),
         body: BlocBuilder<ItemsBloc, ItemsState>(
           builder: (context, state) {
@@ -27,25 +34,37 @@ class _ItemsPageState extends State<ItemsPage> {
               return Center(child: CircularProgressIndicator());
             } else if (state is ItemsSuccessState) {
               final List<ItemEntity> items = state.items;
-              return GridView.builder(
+              return ListView.separated(
                 padding: EdgeInsets.all(16.0),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: 1,
-                ),
+                separatorBuilder: (context, index) {
+                  return Divider();
+                },
                 itemBuilder: (context, index) {
-                  final ItemEntity item = items[index];
-                  return CardItem(
-                    label: item.name ?? '',
+                  if (index == 0) {
+                    return Row(
+                      children: [
+                        ChipsChoice(
+                          leading: Text(ItemCategory.miscellaneous.name),
+                          selected: isSelected,
+                          onTap: (selected) {
+                            setState(() {
+                              isSelected = selected;
+                            });
+                          },
+                        ),
+                      ],
+                    );
+                  }
+                  final ItemEntity item = items[index - 1];
+                  return ListItem(
+                    label: item.name,
                     urlImage: item.icon,
                     onTap: () {
-                      context.go(AppRoutePaths.itemDetails, extra: item);
+                      context.push(AppRoutePaths.itemDetails, extra: item);
                     },
                   );
                 },
-                itemCount: items.length,
+                itemCount: items.length + 1,
               );
             } else {
               return Center(child: Text('Error'));

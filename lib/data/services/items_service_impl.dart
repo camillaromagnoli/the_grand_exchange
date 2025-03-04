@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:the_grand_exchange/core/adapters/network_adapter.dart';
+import 'package:the_grand_exchange/core/api/api_routes.dart';
 import 'package:the_grand_exchange/domain/services/items_service.dart';
 
 @Injectable(as: ItemsService)
@@ -11,13 +12,14 @@ class ItemsServiceImpl extends ItemsService {
   final NetworkAdapter _networkAdapter;
 
   @override
-  Future<Response> getItems() async {
-    const url =
-        'https://secure.runescape.com/m=itemdb_rs/api/catalogue/items.json';
-
+  Future<Response> getItems({
+    required int category,
+    required String alpha,
+    required int page,
+  }) async {
     final Response response = await _networkAdapter.get(
-      url: url,
-      queryParameters: {'category': 0, 'alpha': 'd', 'page': 1},
+      url: ApiRoutes.items,
+      queryParameters: {'category': category, 'alpha': alpha, 'page': 1},
     );
 
     return response;
@@ -25,11 +27,8 @@ class ItemsServiceImpl extends ItemsService {
 
   @override
   Future<Response> getItemDetails({required int itemId}) async {
-    const url =
-        'https://secure.runescape.com/m=itemdb_rs/api/catalogue/detail.json';
-
     final Response response = await _networkAdapter.get(
-      url: url,
+      url: ApiRoutes.detail,
       queryParameters: {'item': itemId.toString()},
     );
 

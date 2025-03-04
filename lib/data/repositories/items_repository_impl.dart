@@ -15,9 +15,17 @@ class ItemsRepositoryImpl extends ItemsRepository {
   ItemsService itemsService;
 
   @override
-  Future<List<ItemModel>> getItems() async {
+  Future<List<ItemModel>> getItems({
+    required int category,
+    required String alpha,
+    required int page,
+  }) async {
     try {
-      final Response response = await itemsService.getItems();
+      final Response response = await itemsService.getItems(
+        category: category,
+        alpha: alpha,
+        page: page,
+      );
 
       final decodedResponse = json.decode(response.data);
       final List items = decodedResponse['items'];
@@ -51,5 +59,10 @@ class ItemsRepositoryImpl extends ItemsRepository {
     } catch (e) {
       throw ServerException();
     }
+  }
+
+  @override
+  Future<List<ItemModel>> searchItem({required String name}) {
+    throw UnimplementedError();
   }
 }

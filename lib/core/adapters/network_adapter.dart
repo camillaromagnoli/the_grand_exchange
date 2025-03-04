@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:the_grand_exchange/core/api/api_routes.dart';
 
 abstract class NetworkAdapter {
   Future<Response> get({
@@ -23,7 +24,7 @@ class NetworkAdapterImpl implements NetworkAdapter {
   }) async {
     try {
       final Response result = await _dio.get(
-        url,
+        '${ApiRoutes.baseApi}$url',
         queryParameters: queryParameters,
         options: options,
       );
