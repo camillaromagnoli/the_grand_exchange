@@ -19,7 +19,7 @@ class ItemsServiceImpl extends ItemsService {
   }) async {
     final Response response = await _networkAdapter.get(
       url: ApiRoutes.items,
-      queryParameters: {'category': category, 'alpha': alpha, 'page': 1},
+      queryParameters: {'category': category, 'alpha': alpha, 'page': page},
     );
 
     return response;

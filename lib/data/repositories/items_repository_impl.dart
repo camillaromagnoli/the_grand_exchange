@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:the_grand_exchange/core/exceptions/failure.dart';
+import 'package:the_grand_exchange/core/utils/alphabet.dart';
 import 'package:the_grand_exchange/data/models/item_details_model.dart';
 import 'package:the_grand_exchange/data/models/item_model.dart';
 import 'package:the_grand_exchange/domain/repositories/items_repository.dart';
@@ -15,22 +16,31 @@ class ItemsRepositoryImpl extends ItemsRepository {
   ItemsService itemsService;
 
   @override
-  Future<List<ItemModel>> getItems({
-    required int category,
-    required String alpha,
-    required int page,
-  }) async {
-    try {
-      final Response response = await itemsService.getItems(
-        category: category,
-        alpha: alpha,
-        page: page,
-      );
+  Future<List<ItemModel>> getItems({required int category}) async {
+    List<ItemModel> itemsModelList = [];
 
-      final decodedResponse = json.decode(response.data);
-      final List items = decodedResponse['items'];
-      final List<ItemModel> itemsModelList =
-          (items).map((data) => ItemModel.fromJson(data)).toList();
+    try {
+      for (String alpha in alphabet) {
+        int page = 0;
+        List tempItems;
+
+        do {
+          Response response = await itemsService.getItems(
+            category: category,
+            alpha: alpha,
+            page: page,
+          );
+
+          var decodedResponse = json.decode(response.data);
+          tempItems = decodedResponse['items'] ?? [];
+
+          itemsModelList.addAll(
+            tempItems.map((data) => ItemModel.fromJson(data)),
+          );
+
+          page++;
+        } while (tempItems.isNotEmpty);
+      }
 
       return itemsModelList;
     } on DioException catch (e) {
